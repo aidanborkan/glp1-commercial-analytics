@@ -1,327 +1,250 @@
 # GLP-1 Market Access & Commercial Analytics
 
-SQL + Tableau analytics project evaluating GLP-1 utilization, provider behavior, market share, specialty penetration, and commercial opportunity using Medicare Part D prescription data.
+**Commercial analytics dashboard evaluating GLP-1 utilization, provider prescribing behavior, spend intensity, specialty penetration, and competitive market share using public Medicare Part D prescription data.**
+
+**Technology Stack:** Python (Jupyter), Azure Data Factory, PostgreSQL, SQL, Tableau Public, GitHub Pages
 
 ---
 
-## Project Overview
+## Executive Summary
 
-This project demonstrates an end-to-end commercial analytics workflow:
+This project demonstrates an end-to-end pharmaceutical commercial analytics workflow for evaluating GLP-1 prescribing patterns across the United States.
 
-**Raw prescription data → PostgreSQL dimensional model → SQL analytics views → Tableau dashboard**
+Using public Medicare Part D prescription data, I developed a reproducible analytics pipeline to model provider behavior, market utilization, geographic prescribing trends, and commercial opportunity segmentation.
 
-The objective was to model and analyze GLP-1 prescribing trends, provider utilization, spend intensity, market share, and market opportunities across U.S. states.
+The workflow combines data engineering, SQL analytics, and business intelligence reporting to transform raw prescription records into actionable commercial insights.
 
----
+### Core Questions Addressed
 
-## Business Objective
-
-This project explores several commercial analytics questions relevant to pharmaceutical market access and commercialization strategy:
-
-- Which markets demonstrate the highest GLP-1 utilization?
-- Which states generate the greatest spend intensity per provider?
-- Which provider specialties drive GLP-1 adoption?
+- Which states demonstrate the strongest GLP-1 utilization?
+- Which markets generate the highest spend intensity per provider?
+- Which medical specialties drive prescribing behavior?
 - How does competitive market share vary geographically?
-- Which markets represent potential commercial opportunities?
+- Which markets represent underpenetrated commercial opportunities?
 
 ---
 
-## Data Source
-
-This project uses publicly available **Medicare Part D prescription utilization data** focused on GLP-1 therapies.
-
-The dataset includes:
-
-- National Provider Identifier (NPI)
-- Provider specialty
-- Prescriber geography (state)
-- Drug brand and generic names
-- Total prescription claims
-- Drug spend
-
-GLP-1 therapies analyzed include:
-
-- Ozempic
-- Wegovy
-- Mounjaro
-- Trulicity
-- Rybelsus
-
-Data were modeled in PostgreSQL and transformed into analytical SQL views for Tableau visualization.
-
----
-
-## Architecture Diagram
+## End-to-End Architecture
 
 ```text
-Public Medicare Part D GLP-1 Data
+Raw Medicare Part D GLP-1 Data
                 │
                 ▼
-        PostgreSQL Database
+      Jupyter / Python Data Cleaning
                 │
-      ┌─────────┴─────────┐
-      │                   │
-      ▼                   ▼
- Dimension Tables      Fact Table
- (Drug, Territory)     Prescriptions
-      │                   │
-      └─────────┬─────────┘
                 ▼
-         SQL Analytics Views
-      ┌─────────────────────────────┐
-      │ vw_kpi_metrics              │
-      │ vw_drug_market_share        │
-      │ vw_specialty_penetration    │
-      │ vw_state_normalized_metrics │
-      │ vw_territory_glp1_summary   │
-      └─────────────────────────────┘
+        Azure Data Factory ETL
+                │
+                ▼
+         PostgreSQL Data Warehouse
+                │
+     ┌──────────┴──────────┐
+     ▼                     ▼
+Dimension Tables        Fact Table
+(Drug, Territory)    Prescriptions
+     │                     │
+     └──────────┬──────────┘
+                ▼
+          SQL Analytics Views
                 │
                 ▼
           Tableau Dashboard
                 │
                 ▼
-    Commercial Analytics Insights
+      Commercial Market Insights
 ```
 
----
+Data Engineering Workflow
+1. Data Extraction
 
-## Data Model
+Public Medicare Part D prescription utilization data were used as the source system for analysis.
 
-The project uses a dimensional schema.
+The dataset includes:
 
-### Fact Table
+National Provider Identifier (NPI)
+Provider specialty
+State geography
+Drug brand and generic names
+Prescription claims volume
+Drug spend
+2. Data Cleaning & Feature Engineering (Python/Jupyter)
 
-`fact_glp1_prescriptions`
+Python and Jupyter Notebook were used to prepare dashboard-ready analytics tables.
 
-Contains:
+Key preprocessing steps
+Filtering GLP-1 therapies of interest
+Standardizing provider and drug naming
+Cleaning state and specialty metadata
+Creating derived business metrics
+Preparing structured tables for relational modeling
+Derived metrics
+Spend per provider
+Claims per provider
+Drug market share
+Provider utilization intensity
+State benchmarking metrics
+3. Azure Data Factory ETL
 
-- Prescription claims
-- Provider utilization
-- Drug spend
-- Geography
-- Provider specialty
+An ETL workflow was developed using Azure Data Factory to orchestrate ingestion and transformation.
 
-### Dimension Tables
+Pipeline responsibilities
+Source ingestion
+Data movement and staging
+Schema validation
+Relational loading preparation
+Workflow orchestration
 
-`dim_drug`
+This step simulates how commercial analytics pipelines are commonly operationalized in pharmaceutical and healthcare environments.
 
-- Brand name
-- Generic name
-- Manufacturer
+4. Relational Modeling (PostgreSQL)
 
-`dim_territory`
+Data were loaded into PostgreSQL using a dimensional schema optimized for downstream business intelligence reporting.
 
-- State
-- Territory region mapping
+Fact Table
 
----
+fact_glp1_prescriptions
 
-## SQL Analytics Pipeline
+Core transactional dataset containing:
 
-SQL views were created to support dashboard-ready analytics.
+Prescription claims
+Spend
+Provider utilization
+Specialty
+Geography
+Dimension Tables
 
-### Analytical Views
+dim_drug
 
-| View | Purpose |
-|------|---------|
-| `vw_kpi_metrics` | Dashboard KPI calculations |
-| `vw_drug_market_share` | State-level GLP-1 competitive market share |
-| `vw_specialty_penetration` | Specialty prescribing analysis |
-| `vw_state_normalized_metrics` | State benchmarking metrics |
-| `vw_territory_glp1_summary` | Primary Tableau summary layer |
+Brand name
+Generic name
+Manufacturer
 
----
+dim_territory
 
-## Dashboard Overview
+State
+Regional mapping
 
-![Dashboard Overview](screenshots/dashboard_overview.png)
+SQL Analytics Layer
 
----
+SQL views were developed to support reusable, dashboard-ready commercial metrics.
 
-### KPI Cards
+| View                          | Purpose                              |
+| ----------------------------- | ------------------------------------ |
+| `vw_kpi_metrics`              | Executive KPI calculations           |
+| `vw_drug_market_share`        | State-level competitive market share |
+| `vw_specialty_penetration`    | Provider specialty analysis          |
+| `vw_state_normalized_metrics` | State benchmarking metrics           |
+| `vw_territory_glp1_summary`   | Tableau reporting layer              |
 
-Executive summary metrics used for rapid performance evaluation.
+Dashboard Overview
 
-Includes:
+The Tableau dashboard was designed to support exploratory commercial analysis and executive-level reporting.
 
-- Total Claims
-- Cost per Claim
-- Total Spend
-- Provider Count
-- Spend per Provider
+KPI Summary
 
-These provide a quick commercial snapshot of overall market performance.
+Provides a high-level performance snapshot across the GLP-1 market.
 
----
+Metrics included
+Total Claims
+Total Spend
+Cost per Claim
+Provider Count
+Spend per Provider
 
-### Spend per Provider by State
+These KPIs establish baseline market context before deeper segmentation analysis.
 
-Ranks states by provider-level spend intensity.
+Spend per Provider by State
 
-**How to read it**
+Measures provider-level spend intensity across geographic markets.
 
-Higher bars indicate markets where providers generate greater GLP-1 spend.
+Higher values may reflect:
 
-This can suggest:
+Stronger adoption
+Higher prescribing concentration
+More mature commercial markets
+Total Spend by State
 
-- stronger adoption
-- higher-value prescribing
-- more mature markets
+Compares aggregate GLP-1 spending across states to identify regions contributing disproportionate commercial value.
 
----
+Useful for:
 
-### Total Spend by State
+Prioritization of commercial markets
+Regional performance assessment
+Market concentration analysis
+Utilization per Provider
 
-Compares aggregate GLP-1 spend across states.
+Evaluates prescribing intensity on a per-provider basis.
 
-**How to read it**
+Higher utilization may indicate:
 
-Larger bars indicate states contributing greater total commercial value.
+Stronger market penetration
+Higher provider engagement
+Increased adoption maturity
+Drug Market Share by State
 
-This helps identify:
+Displays competitive distribution of GLP-1 therapies across geographies.
 
-- high-priority commercial markets
-- regional revenue concentration
+Supports evaluation of:
 
----
+Competitive dominance
+Geographic prescribing variation
+Commercialization opportunities
+Market Opportunity Segmentation
 
-### GLP-1 Utilization per Provider by State
+A multivariate market segmentation view comparing:
 
-Ranks provider-level utilization intensity.
+X-axis: Claims per Provider
+Y-axis: Spend per Provider
+Bubble Size: Provider Count
 
-**How to read it**
+This enables rapid identification of:
 
-Higher values indicate providers write more GLP-1 claims on average.
+| Segment                         | Interpretation                   |
+| ------------------------------- | -------------------------------- |
+| High utilization / high spend   | Mature commercial markets        |
+| High spend / lower utilization  | Premium prescribing environments |
+| High utilization / lower spend  | Expansion opportunities          |
+| Lower utilization / lower spend | Lower-priority markets           |
 
-Useful for identifying:
 
-- high-adoption markets
-- provider engagement opportunities
+Medical Specialty Penetration
 
----
+Ranks provider specialties according to GLP-1 prescribing behavior.
 
-### GLP-1 Drug Market Share by State
+Useful for:
 
-Displays competitive market share across GLP-1 therapies by geography.
+Physician targeting strategies
+Specialty prioritization
+Commercialization planning
+Example Insights
 
-**How to read it**
+Illustrative findings include:
 
-Each bar represents a state.
+Northeastern markets demonstrate relatively high utilization and spend intensity.
+Competitive market share varies considerably across states.
+Endocrinology and primary care specialties represent major prescribing groups.
+Several states show divergent utilization and spend dynamics, suggesting heterogeneous prescribing behavior.
 
-Colors represent GLP-1 brands:
 
-- Ozempic
-- Wegovy
-- Mounjaro
-- Trulicity
-- Rybelsus
 
-The length of each colored segment represents percentage contribution to total spend.
+Repository Structure
 
-This visualization helps identify:
+glp1-commercial-analytics/
+│
+├── notebooks/
+│   └── glp1_data_cleaning.ipynb
+│
+├── sql/
+│   ├── 01_create_schema_tables.sql
+│   ├── 02_load_raw_data.sql
+│   ├── 03_create_analytics_views.sql
+│   └── 04_validation_checks.sql
+│
+├── screenshots/
+│   └── dashboard_overview.png
+│
+├── index.html
+├── README.md
+└── docs/
 
-- competitive dominance
-- geographic variation in prescribing behavior
-- commercialization opportunities
 
----
-
-### GLP-1 State Benchmarking
-
-Compares commercial performance across states using normalized metrics.
-
-Includes:
-
-- Claims per Provider
-- Cost per Claim
-- Provider Count
-- Spend per Provider
-
-**How to read it**
-
-Allows rapid benchmarking across markets to identify unusually strong or weak commercial performance.
-
-Conditional formatting highlights relative outliers.
-
----
-
-### GLP-1 Market Opportunity Segmentation
-
-This scatterplot compares provider utilization and spend intensity across states.
-
-**How to read it**
-
-- X-axis = Claims per Provider (utilization intensity)
-- Y-axis = Spend per Provider (commercial value)
-- Bubble size = Provider Count (market size)
-
-Quadrants help segment market opportunities:
-
-| Quadrant | Interpretation |
-|---|---|
-| Upper Right | High-value, high-utilization markets |
-| Upper Left | High spend but lower utilization |
-| Lower Right | Underpenetrated opportunity markets |
-| Lower Left | Lower-priority markets |
-
-Reference lines represent portfolio averages and help identify outlier markets.
-
-Example interpretation:
-
-- **New York** appears as a mature, high-value market with strong utilization.
-- **Pennsylvania** demonstrates strong provider scale but comparatively lower spend intensity.
-
----
-
-### Medical Specialty Penetration
-
-Ranks provider specialties by GLP-1 prescribing intensity.
-
-**How to read it**
-
-Longer bars indicate specialties with stronger prescribing activity.
-
-Useful for identifying:
-
-- core prescribing specialties
-- commercialization targeting opportunities
-- specialty-specific adoption trends
-
----
-
-## Example Insights
-
-Example findings from the dashboard include:
-
-- Northeastern states demonstrate comparatively high GLP-1 utilization and spend intensity.
-- Market share varies considerably across geographies.
-- Provider specialty penetration highlights endocrinology and primary care as major prescribing groups.
-- Several markets demonstrate differing utilization versus spend dynamics, suggesting regional variation in prescribing behavior.
-
----
-
-## Repository Structure
-
-```text
-sql/
-├── 01_create_schema_tables.sql
-├── 02_load_raw_data.sql
-├── 03_create_analytics_views.sql
-└── 04_validation_checks.sql
-
-tableau/
-screenshots/
-docs/
-```
-
----
-
-## Future Improvements
-
-Potential extensions include:
-
-- Time-series forecasting
-- Provider specialty deep dives
-- Commercial opportunity scoring
-- Automated ETL workflows
-- Geographic market expansion analysis
