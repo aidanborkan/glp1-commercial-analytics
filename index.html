@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLP-1 Market Access & Commercial Analytics Dashboard</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f7f8fa;
+      color: #222;
+    }
+
+    header {
+      background: #1f2937;
+      color: white;
+      padding: 32px 48px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin-bottom: 8px;
+      font-size: 32px;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 16px;
+      color: #d1d5db;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .tableau-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>GLP-1 Market Access & Commercial Analytics Dashboard</h1>
+    <p>Medicare Part D analytics for utilization, spend, provider penetration, and drug market share.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Project Overview</h2>
+      <p>
+        This project analyzes GLP-1 prescribing and spending trends using public Medicare Part D data.
+        The dashboard highlights state-level utilization, spend per provider, market share, and market
+        opportunity segmentation.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Interactive Tableau Dashboard</h2>
+
+      <div class="tableau-wrapper">
+        <div class='tableauPlaceholder' id='viz1779906121093' style='position: relative'>
+          <noscript>
+            <a href='#'>
+              <img alt='GLP-1 Market Access & Commercial Analytics'
+                   src='https://public.tableau.com/static/images/Bo/Book1_17798552725440/Dashboard2/1_rss.png'
+                   style='border: none' />
+            </a>
+          </noscript>
+
+          <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='Book1_17798552725440/Dashboard2' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https://public.tableau.com/static/images/Bo/Book1_17798552725440/Dashboard2/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+            <param name='filter' value='publish=yes' />
+          </object>
+        </div>
+      </div>
+
+      <script type='text/javascript'>
+        var divElement = document.getElementById('viz1779906121093');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+
+        if (divElement.offsetWidth > 800) {
+          vizElement.style.width = '100%';
+          vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+        } else if (divElement.offsetWidth > 500) {
+          vizElement.style.width = '100%';
+          vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+        } else {
+          vizElement.style.width = '100%';
+          vizElement.style.height = '1600px';
+        }
+
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+      </script>
+    </section>
+  </main>
+</body>
+</html>
