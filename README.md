@@ -227,24 +227,20 @@ Several states show divergent utilization and spend dynamics, suggesting heterog
 
 
 
-Repository Structure
+## Repository Structure
 
+```text
 glp1-commercial-analytics/
-│
+├── README.md
+├── index.html
 ├── notebooks/
 │   └── glp1_data_cleaning.ipynb
-│
 ├── sql/
 │   ├── 01_create_schema_tables.sql
 │   ├── 02_load_raw_data.sql
 │   ├── 03_create_analytics_views.sql
 │   └── 04_validation_checks.sql
-│
 ├── screenshots/
 │   └── dashboard_overview.png
-│
-├── index.html
-├── README.md
 └── docs/
-
 
